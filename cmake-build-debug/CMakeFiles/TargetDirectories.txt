@@ -1,0 +1,3 @@
+/home/ghost/Desktop/Desktop/C++ Projects/login_register_system/cmake-build-debug/CMakeFiles/login_register_system.dir
+/home/ghost/Desktop/Desktop/C++ Projects/login_register_system/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/ghost/Desktop/Desktop/C++ Projects/login_register_system/cmake-build-debug/CMakeFiles/rebuild_cache.dir
