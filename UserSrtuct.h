@@ -22,31 +22,11 @@ struct User {
     };
 };
 
-ostream& operator << (ostream& stream, const User& user) {
-    stream << "User name: " << user.user_name << "\n" << "Token: " << user.token;
-    return stream;
-}
+ostream& operator << (ostream& stream, const User& user);
 
-istream& operator >> (istream& stream, User& user) {
-    string user_name;
-    string password;
-    cout << "User Name: ";
-    stream >> user_name;
-    cout << "Set Password: ";
-    stream >> password;
-    hash<string> string_hash;
-    long token = string_hash(user_name + password);
-    user.user_name = user_name;
-    user.token = token;
-    user.password = password;
+istream& operator >> (istream& stream, User& user);
 
-    return stream;
-}
-
-ofstream& operator << (ofstream& file, const User& user) {
-    file << "/" << user.user_name << "/" << user.token << "/" << user.password << "/#" << endl;
-    return file;
-}
+ofstream& operator << (ofstream& file, const User& user);
 
 
 #endif //LOGIN_REGISTER_SYSTEM_USERSRTUCT_H

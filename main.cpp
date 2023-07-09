@@ -9,7 +9,7 @@
 
 using namespace std;
 
-filesystem::path cwd = filesystem::current_path().parent_path();
+filesystem::path cw = filesystem::current_path().parent_path();
 
 
 
@@ -58,7 +58,7 @@ void read_users_from_file() {
 
 
 void save_user_to_file(const User& user) {
-    ofstream file(cwd.append("data").append("user.data").string(), ios::app);
+    ofstream file(cw.append("data").append("user.data").string(), ios::app);
     if (file.is_open()){
         file << user;
         file.close();
@@ -110,7 +110,7 @@ int main() {
     auto userData = UserData();
 
 
-    // login test
+//     login test
     cout << "!! Login Test !!"<<endl;
     User user_login;
     cin >> user_login;
@@ -119,13 +119,16 @@ int main() {
 
 
     // register test
-//    cout << "!! Register Test !!" << endl;
-//    User user_register;
-//    cin >> user_register;
-//    userData.register_user(user_register);
-//    cout << "*!! End Register Test !!*" << endl;
+    cout << "!! Register Test !!" << endl;
+    User user_register;
+    cin >> user_register;
+    userData.register_user(user_register);
+    cout << "*!! End Register Test !!*" << endl;
 
     // display all users
+    cout << "\n!! Display all Test !!"<<endl;
+//    cout << userData.all_users( << endl;
+    userData.all_users();
 
 
 
@@ -133,7 +136,7 @@ int main() {
 //    vector<User> users;
 //    users = { { .user_name =  "Mathew", .token =  6921774253641605605, .password =  "lim" } };
 //
-//    // login
+//  // login
 //    cout << "Login" << endl;
 //
 //    try {
@@ -152,7 +155,7 @@ int main() {
 //    register_user(user, users);
 //    cout << "Iterator" << endl;
 //    print_users(users);
-//
+
 //
 //    read_users_from_file();
     return 0;

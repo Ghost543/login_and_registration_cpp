@@ -7,34 +7,12 @@
 #include <filesystem>
 
 #include "UserData.h"
+#include "UserSrtuct.h"
 
 using namespace std;
 
 filesystem::path cwd = filesystem::current_path().parent_path();
 
-User UserData::find_user(string name) {
-    map<int, User>::iterator users_iter;
-    users_iter = std::find_if(this->users.begin(), this->users.end(), [&](const pair<int,User>&item)->bool {
-        return item.second.user_name == name;
-    });
-    if (users_iter != users.end()){
-        return users_iter->second;
-    }else{
-        throw "No such User";
-    };
-
-}
-
-bool  UserData::is_user_regi(std::string name) {
-    map<int, User>::iterator users_iter;
-    users_iter = std::find_if(this->users.begin(), this->users.end(), [&](const pair<int,User>&item)->bool {
-        return item.second.user_name == name;
-    });
-    if (users_iter != users.end()){
-        return true;
-    }
-    return false;
-}
 
 UserData::UserData() {
     ifstream file(filesystem::current_path().parent_path().append("data").append("user.data").string(), ios::in);
@@ -45,14 +23,15 @@ UserData::UserData() {
 
     string stream_buffer;
     while (file >> stream_buffer) {
-        cout << stream_buffer << endl;
+//        cout << stream_buffer << endl;
         string::iterator stream_iter;
         User user;
         string temp[3];
         int count = 0;
         for (stream_iter = ++stream_buffer.begin(); stream_iter != stream_buffer.end(); ++stream_iter) {
-            if (*stream_iter == '#')
+            if (*stream_iter == '#') {
                 continue;
+            }
             if (*stream_iter == '/') {
                 count ++;
                 continue;
@@ -64,21 +43,41 @@ UserData::UserData() {
         user.user_name = temp[0];
         user.token = stol(temp[1]);
         user.password = temp[2];
-        users.insert(make_pair(count, user));
-        cout << user;
+        users.push_back(user);
+//        cout << user;
 
-        cout << "\n" << endl;
+//        cout << "\n" << endl;
     }
     file.close();
 }
 
+User UserData::find_user(string name) {
+    vector<User>::iterator users_iter;
+    for(users_iter=this->users.begin(); users_iter != this->users.end(); ++users_iter){
+        if (users_iter->user_name == name){
+            return *users_iter;
+        }
+    }
+    throw runtime_error("No such user");
+}
+
+bool  UserData::is_user_regi(std::string name) {
+    vector<User>::iterator users_iterator;
+    for (users_iterator = this->users.begin(); users_iterator != this->users.end(); ++users_iterator) {
+        if (users_iterator->user_name == name){
+            return true;
+        }
+    }
+    return false;
+}
+
+
 void UserData::register_user(const User& user) {
-    if (!this->is_user_regi(user.user_name)) {
-        cout << "User: " << user.user_name << "already exists."<< endl;
+    if (this->is_user_regi(user.user_name)) {
+        cout << "User: " << user.user_name << " already exists."<< endl;
         abort();
     }
-    int len = int(this->users.size());
-    this->users.insert(make_pair(len, user));
+    this->users.push_back(user);
     UserData::save_user_file(user);
 }
 
@@ -96,15 +95,18 @@ long UserData::login_user(const string& name, const string& password) {
         if (user.password != password) {
             cout << "Invalid login credentials" << endl;
             abort();
-        }
+        } else {
+
         cout << user.user_name << " is logged in!" << endl;
         return user.token;
+        }
     }
     cout << "Invalid login credentials" << endl;
     abort();
 }
-
-map<int, User> UserData::all_users() {
-
-    return this->users;
+void UserData::all_users() {
+    vector<User>::iterator users_iterator;
+    for(users_iterator = this->users.begin(); users_iterator != this->users.end(); ++users_iterator){
+        cout << *users_iterator << endl;
+    }
 }

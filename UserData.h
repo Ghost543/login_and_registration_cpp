@@ -3,6 +3,7 @@
 //
 
 #include <map>
+#include <vector>
 
 #include "UserSrtuct.h"
 
@@ -12,14 +13,14 @@
 using namespace std;
 class UserData {
 private:
-    map<int, User> users;
+    vector<User> users;
     bool is_user_regi(string name);
     static void save_user_file(const User& user);
 public:
     UserData();
     void register_user(const User& user);
     long login_user (const string& name, const string& password);
-    map<int, User> all_users();
+    void all_users();
     User find_user(string name);
 };
 
